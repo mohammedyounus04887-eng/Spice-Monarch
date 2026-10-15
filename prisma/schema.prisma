@@ -1,0 +1,140 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+enum InquiryStatus {
+  NEW
+  IN_REVIEW
+  QUOTED
+  WON
+  LOST
+}
+
+enum ProductForm {
+  WHOLE
+  GROUND
+}
+
+enum ExportGrade {
+  EXPORT
+  PREMIUM
+  STANDARD
+}
+
+enum Incoterm {
+  FOB
+  CIF
+  EXW
+  DAP
+}
+
+enum ContainerType {
+  C20
+  C40
+}
+
+enum Certification {
+  ISO
+  HACCP
+  FSSAI
+  US_FDA
+  SPICES_BOARD
+  ORGANIC
+  HALAL
+  KOSHER
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  displayName  String
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  sessions     AdminSession[]
+}
+
+model AdminSession {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  userId    String
+  user      AdminUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Product {
+  id                String   @id @default(cuid())
+  slug              String   @unique
+  name              String
+  scientificName    String
+  origin            String
+  grade             ExportGrade
+  purity            String
+  moisturePct       Float
+  packing           String
+  shelfLife         String
+  hsCode            String
+  moq               String
+  containerCapacity String
+  availability      String
+  form              ProductForm
+  organic           Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  images            ProductImage[]
+  certifications    ProductCertification[]
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  productId String
+  url       String
+  alt       String
+  sortOrder Int     @default(0)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model ProductCertification {
+  id            String        @id @default(cuid())
+  productId     String
+  certification Certification
+  product       Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, certification])
+}
+
+model Inquiry {
+  id                 String        @id @default(cuid())
+  name               String
+  company            String
+  email              String
+  phone              String
+  destinationCountry String
+  incoterm           Incoterm
+  containerType      ContainerType
+  packaging          String
+  expectedDelivery   String
+  status             InquiryStatus @default(NEW)
+  notes              String        @default("")
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+
+  items              InquiryItem[]
+}
+
+model InquiryItem {
+  id             String @id @default(cuid())
+  inquiryId      String
+  productSlug    String
+  productName    String
+  quantity       String
+  preferenceNotes String @default("")
+
+  inquiry        Inquiry @relation(fields: [inquiryId], references: [id], onDelete: Cascade)
+}
