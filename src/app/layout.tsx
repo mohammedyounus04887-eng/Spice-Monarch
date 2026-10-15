@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display, Poppins } from "next/font/google";
+import { Anton, Inter, Playfair_Display, Poppins } from "next/font/google";
 import "./globals.css";
 import "./monarch.css";
 
@@ -8,6 +8,8 @@ import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
 
 import { siteUrl } from "@/lib/site";
+
+const fontCondensed = Anton({ variable: "--font-condensed", subsets: ["latin"], weight: "400", display: "swap" });
 
 const fontSans = Inter({
   variable: "--font-sans",
@@ -75,7 +77,7 @@ export default function RootLayout({
       lang="en"
       suppressHydrationWarning
       data-scroll-behavior="smooth"
-      className={`${fontSans.variable} ${fontUi.variable} ${fontDisplay.variable} h-full antialiased`}
+      className={`${fontCondensed.variable} ${fontSans.variable} ${fontUi.variable} ${fontDisplay.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light" disableTransitionOnChange>
@@ -90,5 +92,6 @@ export default function RootLayout({
     </html>
   );
 }
+
 
 

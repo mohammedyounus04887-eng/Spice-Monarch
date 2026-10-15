@@ -1,3 +1,4 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-export default function NotFound() { return <div className="mx-auto max-w-3xl px-4 py-24 text-center"><p className="text-sm font-semibold uppercase tracking-widest text-brand-green">404 · Page not found</p><h1 className="mt-4 font-display text-4xl">Let’s get you back to the good stuff.</h1><p className="my-6 text-muted-foreground">This page isn’t available. Explore our spice range or return to the home page.</p><div className="flex flex-wrap justify-center gap-3"><Button asChild variant="gold"><Link href="/products">Browse spices</Link></Button><Button asChild variant="outline"><Link href="/">Back to home</Link></Button></div></div>; }
+import { ArrowUpRight } from "lucide-react";
+import { EditorialHero } from "@/components/site/editorial";
+export default function NotFound(){return <div className="editorial-page recovery-page"><EditorialHero eyebrow="404 / A LITTLE DETOUR" title="BACK TO THE GOOD STUFF." description="This page isn’t available. There’s a whole world of spice waiting in the collection."/><div className="recovery-actions"><Link href="/products" className="split-link dark"><span>Explore the collection</span><i><ArrowUpRight size={20}/></i></Link><Link href="/" className="text-link">Back to the homepage <ArrowUpRight size={18}/></Link></div></div>}

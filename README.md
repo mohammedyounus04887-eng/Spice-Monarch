@@ -60,3 +60,9 @@ Environment files, databases, dependency folders, and build output are ignored. 
 All public destinations use the shared editorial page system, including company, quality, business solutions, FAQs, contact, credits, journal stories, and product detail pages. Journal entries open real article routes. Product photographs can be enlarged, with matching presentation across cards, recommendations, and detail pages.
 
 The editorial still life is AI-generated brand imagery. Product identification uses licensed photographs; eight image URLs were refreshed, including clean green cardamom, black pepper, white pepper, cumin, fennel, fenugreek, and nigella photographs. Full GFDL 1.2 text is included for the green cardamom photograph, alongside source and author attribution. See /image-credits.
+
+## Interface polish and interaction fixes
+
+The Delta Cafés-inspired composition is retained. Navigation stays available while scrolling and identifies the current collection or journal section on detail routes. A bundled condensed web font keeps headline styling consistent across devices. Error and missing-page screens, browser/app icons, and social previews use the same brand palette.
+
+Inquiry previews are invalidated when a buyer edits the form. Switching from a comparison to a single product removes the old comparison list, and changing the URL selection starts the corresponding inquiry form. Quiz progression moves keyboard focus to the new question or results heading. Stable scrollbar space prevents layout jumps when dialogs open.

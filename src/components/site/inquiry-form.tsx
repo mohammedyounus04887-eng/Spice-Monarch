@@ -12,7 +12,9 @@ export function InquiryForm({ email, phone, initialProduct = "", selectedSlugs =
   const [copyError, setCopyError] = useState(false);
   const selectedProducts = spiceProducts.filter(p => selectedSlugs.includes(p.slug));
   const product = selectedProducts.length > 1 ? "Multiple products / custom blend" : selectedProducts[0]?.name || spiceProducts.find((entry) => entry.slug === initialProduct)?.name || "";
-  const brief = selectedProducts.length > 1 ? `Selected spices: ${selectedProducts.map(p => p.name).join(", ")}\n` : "";
+  const [chosenProduct, setChosenProduct] = useState(product);
+  const multiple = chosenProduct === "Multiple products / custom blend" && selectedProducts.length > 1;
+  const showSelection = multiple || (selectedProducts.length === 1 && selectedProducts[0].name === chosenProduct);
   const fieldClass = "w-full rounded-xl border border-input bg-background px-3 py-2 text-sm";
 
   function prepareInquiry(event: React.FormEvent<HTMLFormElement>) {
@@ -22,7 +24,7 @@ export function InquiryForm({ email, phone, initialProduct = "", selectedSlugs =
       "Spice Monarch — sourcing inquiry", "",
       `Name: ${data.get("name")}`, `Company: ${data.get("company")}`,
       `Email: ${data.get("email")}`, `Destination: ${data.get("country")}`,
-      `Product: ${data.get("product")}`, ...(selectedProducts.length > 1 ? [`Selected spices: ${selectedProducts.map(p => p.name).join(", ")}`] : []), `Quantity: ${data.get("quantity")}`,
+      `Product: ${data.get("product")}`, ...(multiple ? [`Selected spices: ${selectedProducts.map(p => p.name).join(", ")}`] : []), `Quantity: ${data.get("quantity")}`,
       `Packaging: ${data.get("packaging")}`, "", `Requirements: ${data.get("message")}`,
     ].join("\n"));
     setCopied(false);
@@ -30,9 +32,9 @@ export function InquiryForm({ email, phone, initialProduct = "", selectedSlugs =
   }
 
   return (
-    <form onSubmit={prepareInquiry} className="space-y-5">
+    <form onSubmit={prepareInquiry} onChange={() => { if (draft) { setDraft(""); setCopied(false); setCopyError(false); } }} className="space-y-5">
       <h2 className="font-display text-2xl font-semibold">Tell us what you need</h2>
-      {selectedProducts.length > 0 && <p className="rounded-xl bg-muted p-3 text-sm">Your selection: {selectedProducts.map(p => p.name).join(", ")}</p>}
+      {showSelection && <p className="rounded-xl bg-muted p-3 text-sm">Your selection: {selectedProducts.map(p => p.name).join(", ")}</p>}
       <div className="grid gap-4 sm:grid-cols-2">
         {[
           { name: "name", label: "Your name", type: "text", autoComplete: "name" },
@@ -40,11 +42,11 @@ export function InquiryForm({ email, phone, initialProduct = "", selectedSlugs =
           { name: "email", label: "Work email", type: "email", autoComplete: "email" },
           { name: "country", label: "Destination country", type: "text", autoComplete: "country-name" },
         ].map((field) => <div key={field.name}><label htmlFor={field.name} className="mb-2 block text-sm font-medium">{field.label} <span aria-hidden="true">*</span></label><Input id={field.name} name={field.name} type={field.type} autoComplete={field.autoComplete} required maxLength={150} /></div>)}
-        <div><label htmlFor="product" className="mb-2 block text-sm font-medium">Product *</label><select key={product} id="product" name="product" defaultValue={product} required className={fieldClass}><option value="">Select a product</option>{spiceProducts.map((entry) => <option key={entry.slug}>{entry.name}</option>)}<option>Multiple products / custom blend</option></select></div>
+        <div><label htmlFor="product" className="mb-2 block text-sm font-medium">Product *</label><select id="product" name="product" value={chosenProduct} onChange={event => setChosenProduct(event.target.value)} required className={fieldClass}><option value="">Select a product</option>{spiceProducts.map((entry) => <option key={entry.slug}>{entry.name}</option>)}<option>Multiple products / custom blend</option></select></div>
         <div><label htmlFor="quantity" className="mb-2 block text-sm font-medium">Quantity *</label><Input id="quantity" name="quantity" placeholder="e.g. 500 kg or 1 container" required maxLength={100} /></div>
       </div>
       <div><label htmlFor="packaging" className="mb-2 block text-sm font-medium">Preferred packaging</label><Input id="packaging" name="packaging" placeholder="Bulk bags, retail packs, or private label" maxLength={200} /></div>
-      <div><label htmlFor="message" className="mb-2 block text-sm font-medium">Additional requirements</label><textarea key={brief} defaultValue={brief} id="message" name="message" rows={4} maxLength={2000} className={fieldClass} placeholder="Grade, samples, delivery timeline, and documentation needed" /></div>
+      <div><label htmlFor="message" className="mb-2 block text-sm font-medium">Additional requirements</label><textarea id="message" name="message" rows={4} maxLength={2000} className={fieldClass} placeholder="Grade, samples, delivery timeline, and documentation needed" /></div>
       <p className="text-xs leading-5 text-muted-foreground">Required fields are marked *. Preparing an inquiry keeps your details in this browser until you copy them or open your email app.</p>
       <Button type="submit" variant="gold">Prepare inquiry</Button>
       {draft && <div className="space-y-4 rounded-2xl border border-brand-green/30 bg-muted p-5" role="status">
