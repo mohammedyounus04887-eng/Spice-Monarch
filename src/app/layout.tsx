@@ -78,7 +78,7 @@ export default function RootLayout({
       className={`${fontSans.variable} ${fontUi.variable} ${fontDisplay.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+        <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light" disableTransitionOnChange>
           <div className="relative flex min-h-screen flex-col">
             <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-xl focus:bg-background focus:p-4">Skip to content</a>
             <SiteHeader />
@@ -90,4 +90,5 @@ export default function RootLayout({
     </html>
   );
 }
+
 

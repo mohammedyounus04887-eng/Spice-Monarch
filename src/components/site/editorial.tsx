@@ -1,0 +1,7 @@
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+import { Reveal } from "@/components/site/reveal";
+export function EditorialHero({eyebrow,title,description,image,alt}:{eyebrow:string;title:string;description:string;image?:string;alt?:string}){return <section className="inner-hero"><div className="inner-heading"><p className="eyebrow">{eyebrow}</p><h1>{title}</h1><p>{description}</p></div>{image&&<div className="inner-cover"><Image src={image} alt={alt||title} fill priority sizes="100vw" quality={90}/><span>SPICE MONARCH / INDIAN ORIGINS</span></div>}</section>}
+export function StoryRows({eyebrow,title,items}:{eyebrow:string;title:string;items:{title:string;text:string}[]}){return <section className="editorial-content"><Reveal><p className="eyebrow">{eyebrow}</p><h2 className="editorial-title">{title}</h2></Reveal><div className="editorial-rows">{items.map((item,i)=><Reveal key={item.title}><article><span>0{i+1}</span><h3>{item.title}</h3><p>{item.text}</p></article></Reveal>)}</div></section>}
+export function EditorialCallout({title,text,href="/contact",label="Start a conversation"}:{title:string;text:string;href?:string;label?:string}){return <section className="editorial-callout"><p className="eyebrow">ORIGIN. CHARACTER. CONNECTION.</p><h2>{title}</h2><p>{text}</p><Link href={href} className="split-link light"><span>{label}</span><i><ArrowUpRight size={20}/></i></Link></section>}

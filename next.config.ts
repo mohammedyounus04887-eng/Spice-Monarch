@@ -16,6 +16,7 @@ const nextConfig: NextConfig = {
     root: path.resolve(__dirname),
   },
   images: {
+    qualities: [75, 90, 95],
     remotePatterns: [
       {
         protocol: "https",
@@ -31,3 +32,4 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+

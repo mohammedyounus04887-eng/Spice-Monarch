@@ -54,3 +54,9 @@ No Delta Cafés source code, logo, videos, or product photography are included. 
 ## Source control
 
 Environment files, databases, dependency folders, and build output are ignored. Never commit secrets. Optional database seed credentials must be supplied through environment variables; there is no built-in admin password.
+
+## Complete page system and image update
+
+All public destinations use the shared editorial page system, including company, quality, business solutions, FAQs, contact, credits, journal stories, and product detail pages. Journal entries open real article routes. Product photographs can be enlarged, with matching presentation across cards, recommendations, and detail pages.
+
+The editorial still life is AI-generated brand imagery. Product identification uses licensed photographs; eight image URLs were refreshed, including clean green cardamom, black pepper, white pepper, cumin, fennel, fenugreek, and nigella photographs. Full GFDL 1.2 text is included for the green cardamom photograph, alongside source and author attribution. See /image-credits.
